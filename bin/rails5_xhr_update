@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'rails5_xhr_update'
+exit Rails5XhrUpdate::Cli.new.run
