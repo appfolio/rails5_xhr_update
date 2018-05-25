@@ -5,6 +5,21 @@ require 'optparse'
 module Rails5XHRUpdate
   # Provide the entry point to this program.
   class Cli
+    def run
+      parse_options
+      ARGV.each do |path|
+        buffer = Parser::Source::Buffer.new(path)
+        buffer.read
+        new_source = XHRToRails5.new.rewrite(
+          buffer, Parser::CurrentRuby.new.parse(buffer)
+        )
+        output(new_source, path)
+      end
+      0
+    end
+
+    private
+
     def output(source, path)
       if @options[:write]
         File.open(path, 'w') do |file|
@@ -23,19 +38,6 @@ module Rails5XHRUpdate
           @options[:write] = write
         end
       end.parse!
-    end
-
-    def run
-      parse_options
-      ARGV.each do |path|
-        buffer = Parser::Source::Buffer.new(path)
-        buffer.read
-        new_source = XHRToRails5.new.rewrite(
-          buffer, Parser::CurrentRuby.new.parse(buffer)
-        )
-        output(new_source, path)
-      end
-      0
     end
   end
 end
