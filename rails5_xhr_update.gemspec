@@ -13,10 +13,10 @@ Gem::Specification.new do |s|
   s.executables = %w[rails5_xhr_update]
   s.files = Dir.glob('{bin,lib}/**/*') + %w[CHANGES.md LICENSE.txt README.md]
   s.homepage = 'https://github.com/appfolio/rails5_xhr_update'
-  s.license = 'Simplified BSD'
+  s.license = 'BSD-2-Clause'
   s.name = 'rails5_xhr_update'
   s.summary = 'Update Rails 4 xhr test method calls to rails 5 syntax.'
   s.version = Rails5XhrUpdate::VERSION
 
-  s.add_runtime_dependency 'unparser'
+  s.add_runtime_dependency 'unparser', '~> 0.2'
 end
