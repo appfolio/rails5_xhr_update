@@ -7,7 +7,7 @@ module Rails5XHRUpdate
   class Cli
     def run
       parse_options
-      ARGV.each do |path|
+      filenames.each do |path|
         buffer = Parser::Source::Buffer.new(path)
         buffer.read
         new_source = XHRToRails5.new.rewrite(
@@ -19,6 +19,10 @@ module Rails5XHRUpdate
     end
 
     private
+
+    def filenames
+      ARGV.empty? ? STDIN.read.split("\n") : ARGV
+    end
 
     def output(source, path)
       if @options[:write]
@@ -33,7 +37,11 @@ module Rails5XHRUpdate
     def parse_options
       @options = {}
       OptionParser.new do |config|
-        config.banner = 'Usage: rails5_update.rb [options] FILE...'
+        config.banner = <<~USAGE
+          Usage: rails5_update.rb [options] FILE...
+
+          Files can also be provided via stdin when not provided as a command line argument.
+        USAGE
         config.on('-w', '--write', 'Write changes back to files') do |write|
           @options[:write] = write
         end

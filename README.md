@@ -33,5 +33,5 @@ output to STDOUT.
 Consider running the following to find files with potential issues:
 
 ```sh
-git grep -l "xhr :" | xargs rails5_xhr_update --write
+git grep -l "xhr :" | rails5_xhr_update --write
 ```
