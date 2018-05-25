@@ -2,7 +2,7 @@
 
 require 'optparse'
 
-module Rails5XhrUpdate
+module Rails5XHRUpdate
   # Provide the entry point to this program.
   class Cli
     def output(source, path)

@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
   s.license = 'BSD-2-Clause'
   s.name = 'rails5_xhr_update'
   s.summary = 'Update Rails 4 xhr test method calls to rails 5 syntax.'
-  s.version = Rails5XhrUpdate::VERSION
+  s.version = Rails5XHRUpdate::VERSION
 
   s.add_runtime_dependency 'unparser', '~> 0.2'
 end

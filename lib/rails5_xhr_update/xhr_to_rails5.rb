@@ -3,7 +3,7 @@
 require 'unparser'
 
 # Provide the XHRToRails5 class.
-module Rails5XhrUpdate
+module Rails5XHRUpdate
   AST_TRUE = Parser::AST::Node.new(:true) # rubocop:disable Lint/BooleanSymbol)
 
   # Convert uses of the xhr method to use the rails 5 syntax.
