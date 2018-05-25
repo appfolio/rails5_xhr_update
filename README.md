@@ -1,15 +1,16 @@
 # rails5_xhr_update
 
-rails5_xhr_update is a program that can be used to help convert from the:
+rails5_xhr_update is a program that can be used to help convert from the Rails
+4 xhr test syntax, like the following:
 
 ```ruby
-xhr :get, :action
+xhr :get, images_path, limit: 10, sort: 'new'
 ```
 
-test syntax used in rails prior to Rails 5, to the Rails 5 syntax:
+to the equivalent Rails 5 syntax:
 
 ```ruby
-get :action, xhr: true
+get images_path, params: { limit: 10, sort: 'new' }, xhr: true
 ```
 
 ## Installation
@@ -33,5 +34,5 @@ output to STDOUT.
 Consider running the following to find files with potential issues:
 
 ```sh
-git grep -l "xhr :" | xargs rails5_xhr_update --write
+git grep -l "xhr :" | rails5_xhr_update --write
 ```
