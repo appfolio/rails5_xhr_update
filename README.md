@@ -13,6 +13,19 @@ to the equivalent Rails 5 syntax:
 get images_path, params: { limit: 10, sort: 'new' }, xhr: true
 ```
 
+Furthermore, `xhr` calls using `session`, or `flash` parameters are also
+supported. The following call:
+
+```ruby
+xhr :get, images_path, { id: 1 }, { user_ud: 2 }, success: 'logged in'
+```
+
+is translated into:
+
+```ruby
+get images_path, flash: { success: "logged in" }, params: { id: 1 }, session: { user_ud: 2 }, xhr: true
+```
+
 ## Installation
 
 To install rails5_xhr_update run:
@@ -22,7 +35,7 @@ To install rails5_xhr_update run:
 
 ## Running
 
-Simply run:
+Execute this program via:
 
 ```sh
 rails5_xhr_update --write FILE...
@@ -31,7 +44,8 @@ rails5_xhr_update --write FILE...
 Omit ``--write`` if you don't want to write back to the files, and instead
 output to STDOUT.
 
-Consider running the following to find files with potential issues:
+Consider running the following to locate and run against files with potential
+issues:
 
 ```sh
 git grep -l "xhr :" | rails5_xhr_update --write
