@@ -1,3 +1,6 @@
+[![Gem](https://img.shields.io/gem/v/rails5_xhr_update.svg)](https://rubygems.org/gems/rails5_xhr_update)
+[![Build Status](https://travis-ci.org/appfolio/rails5_xhr_update.svg?branch=master)](https://travis-ci.org/appfolio/rails5_xhr_update)
+
 # rails5_xhr_update
 
 rails5_xhr_update is a program that can be used to help convert from the Rails
