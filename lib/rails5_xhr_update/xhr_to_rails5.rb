@@ -40,7 +40,7 @@ module Rails5XHRUpdate
 
     def extract_and_validate_arguments(node)
       arguments = node.children[4..-1]
-      raise Exception, 'should this happen?' if new_syntax?(arguments)
+      raise Exception, 'should this happen?' if keyword_args?(arguments)
       raise Exception "Unhandled:\n\n #{arguments}" if arguments.size > 2
       arguments
     end
@@ -51,10 +51,11 @@ module Rails5XHRUpdate
       [nil, http_method, http_path]
     end
 
-    def new_syntax?(arguments)
+    def keyword_args?(arguments)
       return false if arguments.size != 1
+      return false if arguments[0].children.empty?
       first_key = arguments[0].children[0].children[0].children[0]
-      %i[params headers].include?(first_key)
+      %i[params session flash].include?(first_key)
     end
   end
 end
