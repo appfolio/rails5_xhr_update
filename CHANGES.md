@@ -1,5 +1,15 @@
 # Change Log
 
+## Unreleased
+
+__Added__
+
+* Added conversion support for the `flash` parameter.
+
+__Fixed__
+
+* The second parameter is correctly named `session` and not `headers`.
+
 ## 0.2.0 (2018/05/25)
 
 __Added__

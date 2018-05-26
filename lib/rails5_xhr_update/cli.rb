@@ -7,7 +7,7 @@ module Rails5XHRUpdate
   class Cli
     def run
       parse_options
-      filenames.each do |path|
+      paths.each do |path|
         buffer = Parser::Source::Buffer.new(path)
         buffer.read
         new_source = XHRToRails5.new.rewrite(
@@ -20,7 +20,7 @@ module Rails5XHRUpdate
 
     private
 
-    def filenames
+    def paths
       ARGV.empty? ? STDIN.read.split("\n") : ARGV
     end
 

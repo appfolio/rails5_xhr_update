@@ -18,5 +18,8 @@ Gem::Specification.new do |s|
   s.summary = 'Update Rails 4 xhr test method calls to rails 5 syntax.'
   s.version = Rails5XHRUpdate::VERSION
 
+  s.add_development_dependency 'minitest', '~> 5.0'
+  s.add_development_dependency 'rake', '~> 12.0'
+
   s.add_runtime_dependency 'unparser', '~> 0.2'
 end
