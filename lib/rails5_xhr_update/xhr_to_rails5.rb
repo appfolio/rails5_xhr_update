@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'parser'
 require 'unparser'
 
 # Provide the XHRToRails5 class.
@@ -15,29 +16,25 @@ module Rails5XHRUpdate
   # This class will convert that into:
   #
   #     get images_path, params: { limit: 10, sort: 'new' }, xhr: true
-  #
-  # Conversion of xhr methods using headers is also supported:
-  #
-  #     xhr :get, root_path {}, { Accept: => 'application/json' }
-  #
-  # This class will convert the above into:
-  #
-  #     get root_path, headers: { Accept: => 'application/json' }, xhr: true
   class XHRToRails5 < Parser::TreeRewriter
     def on_send(node)
       return if node.children[1] != :xhr
       arguments = extract_and_validate_arguments(node)
       children = initial_children(node) + add_xhr_node(*arguments)
-      replace(node.loc.expression, ast_to_string(node.updated(nil, children)))
+      replace(node.loc.expression, Rails5XHRUpdate.ast_to_string(
+                                     node.updated(nil, children)
+      ))
     end
 
     private
 
-    def add_xhr_node(params, headers = nil)
+    def add_xhr_node(params = nil, headers = nil)
       children = []
-      children << ast_pair(:headers, headers) unless headers.nil?
-      children << ast_pair(:params, params) unless params.children.empty?
-      children << ast_pair(:xhr, AST_TRUE)
+      children << Rails5XHRUpdate.ast_pair(:headers, headers) \
+        unless headers.nil?
+      children << Rails5XHRUpdate.ast_pair(:params, params) \
+        unless params.nil? || params.children.empty?
+      children << Rails5XHRUpdate.ast_pair(:xhr, AST_TRUE)
       [Parser::AST::Node.new(:hash, children)]
     end
 
@@ -59,15 +56,5 @@ module Rails5XHRUpdate
       first_key = arguments[0].children[0].children[0].children[0]
       %i[params headers].include?(first_key)
     end
-  end
-
-  def ast_pair(name, data)
-    Parser::AST::Node.new(:pair, [Parser::AST::Node.new(:sym, [name]), data])
-  end
-
-  def ast_to_string(ast)
-    string = Unparser.unparse(ast)[0..-2]
-    string[string.index('(')] = ' '
-    string
   end
 end
