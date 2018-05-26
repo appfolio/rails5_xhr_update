@@ -28,12 +28,14 @@ module Rails5XHRUpdate
 
     private
 
-    def add_xhr_node(params = nil, headers = nil)
+    def add_xhr_node(params = nil, session = nil, flash = nil)
       children = []
-      children << Rails5XHRUpdate.ast_pair(:headers, headers) \
-        unless headers.nil?
+      children << Rails5XHRUpdate.ast_pair(:flash, flash) \
+        unless flash.nil? || flash.children.empty?
       children << Rails5XHRUpdate.ast_pair(:params, params) \
         unless params.nil? || params.children.empty?
+      children << Rails5XHRUpdate.ast_pair(:session, session) \
+        unless session.nil? || session.children.empty?
       children << Rails5XHRUpdate.ast_pair(:xhr, AST_TRUE)
       [Parser::AST::Node.new(:hash, children)]
     end
@@ -41,7 +43,7 @@ module Rails5XHRUpdate
     def extract_and_validate_arguments(node)
       arguments = node.children[4..-1]
       raise Exception, 'should this happen?' if keyword_args?(arguments)
-      raise Exception "Unhandled:\n\n #{arguments}" if arguments.size > 2
+      raise Exception, "Unhandled:\n\n #{arguments}" if arguments.size > 3
       arguments
     end
 

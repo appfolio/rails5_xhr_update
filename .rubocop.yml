@@ -1,2 +1,8 @@
 AllCops:
   TargetRubyVersion: 2.3
+
+Metrics/AbcSize:
+  Enabled: false
+
+Metrics/CyclomaticComplexity:
+  Enabled: false
