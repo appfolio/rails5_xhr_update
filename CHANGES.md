@@ -1,5 +1,12 @@
 # Change Log
 
+## 0.4.1 (2018/06/14)
+
+__Fixed__
+
+* `--version` command line argument should now work.
+
+
 ## 0.4.0 (2018/06/14)
 
 __Added__
