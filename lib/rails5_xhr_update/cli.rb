@@ -45,6 +45,7 @@ module Rails5XHRUpdate
         config.on('-w', '--write', 'Write changes back to files') do |write|
           @options[:write] = write
         end
+        config.version = Rails5XHRUpdate::VERSION
       end.parse!
     end
   end
