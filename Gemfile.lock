@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    rails5_xhr_update (0.3.0)
+    rails5_xhr_update (0.4.0)
       unparser (~> 0.2)
 
 GEM
