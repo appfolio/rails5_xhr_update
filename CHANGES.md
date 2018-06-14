@@ -1,5 +1,12 @@
 # Change Log
 
+## 0.4.0 (2018/06/14)
+
+__Added__
+
+* Support keyword arguments to `xhr`.
+* Support the `format` keyword argument to `xhr`.
+
 ## 0.3.0 (2018/05/26)
 
 __Added__
