@@ -86,6 +86,36 @@ class XHRToRails5Test < MiniTest::Test
     assert_includes(source, 'get images_path, params: { id: 1 }, xhr: true')
   end
 
+  def test_post_with_keyword_argument__format
+    source = convert <<~RB
+      def post
+        xhr :post, image_path, format: :json
+      end
+    RB
+    assert_includes(source, 'post image_path, format: :json, xhr: true')
+  end
+
+  def test_post_with_keyword_argument__params
+    source = convert <<~RB
+      def post
+        xhr :post, image_path, params: { id: 1 }
+      end
+    RB
+    assert_includes(source, 'post image_path, params: { id: 1 }, xhr: true')
+  end
+
+  def test_post_with_multiple_keyword_arguments
+    source = convert <<~RB
+      def post
+        xhr :post, image_path, params: { id: 1 }, format: :json
+      end
+    RB
+    assert_includes(
+      source,
+      'post image_path, format: :json, params: { id: 1 }, xhr: true'
+    )
+  end
+
   private
 
   def convert(string)

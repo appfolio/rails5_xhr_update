@@ -20,7 +20,7 @@ module Rails5XHRUpdate
     def on_send(node)
       return if node.children[1] != :xhr
       arguments = extract_and_validate_arguments(node)
-      children = initial_children(node) + add_xhr_node(*arguments)
+      children = initial_children(node) + add_xhr_node(arguments)
       replace(node.loc.expression, Rails5XHRUpdate.ast_to_string(
                                      node.updated(nil, children)
       ))
@@ -28,23 +28,24 @@ module Rails5XHRUpdate
 
     private
 
-    def add_xhr_node(params = nil, session = nil, flash = nil)
+    def add_xhr_node(arguments)
       children = []
-      children << Rails5XHRUpdate.ast_pair(:flash, flash) \
-        unless flash.nil? || flash.children.empty?
-      children << Rails5XHRUpdate.ast_pair(:params, params) \
-        unless params.nil? || params.children.empty?
-      children << Rails5XHRUpdate.ast_pair(:session, session) \
-        unless session.nil? || session.children.empty?
+      arguments.keys.sort.each do |argument|
+        value = arguments[argument]
+        children << Rails5XHRUpdate.ast_pair(argument, value) \
+          unless value.nil? || value.children.empty?
+      end
       children << Rails5XHRUpdate.ast_pair(:xhr, AST_TRUE)
       [Parser::AST::Node.new(:hash, children)]
     end
 
     def extract_and_validate_arguments(node)
       arguments = node.children[4..-1]
-      raise Exception, 'should this happen?' if keyword_args?(arguments)
+      if (keyword_arguments = handle_keyword_args(arguments))
+        return keyword_arguments
+      end
       raise Exception, "Unhandled:\n\n #{arguments}" if arguments.size > 3
-      arguments
+      { params: arguments[0], session: arguments[1], flash: arguments[2] }
     end
 
     def initial_children(node)
@@ -53,11 +54,18 @@ module Rails5XHRUpdate
       [nil, http_method, http_path]
     end
 
-    def keyword_args?(arguments)
+    def handle_keyword_args(arguments)
       return false if arguments.size != 1
       return false if arguments[0].children.empty?
       first_key = arguments[0].children[0].children[0].children[0]
-      %i[params session flash].include?(first_key)
+      return false unless %i[params session flash format].include?(first_key)
+
+      result = {}
+      arguments[0].children.each do |node|
+        raise Exception, "unexpected #{node}" if node.children.size != 2
+        result[node.children[0].children[0]] = node.children[1]
+      end
+      result
     end
   end
 end
