@@ -1,6 +1,6 @@
 # Change Log
 
-## Unreleased
+## 0.5.0 (2018/06/18)
 
 __Added__
 
