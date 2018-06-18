@@ -1,5 +1,11 @@
 # Change Log
 
+## Unreleased
+
+__Added__
+
+* Support positional parameters which are variables or method calls.
+
 ## 0.4.1 (2018/06/14)
 
 __Fixed__

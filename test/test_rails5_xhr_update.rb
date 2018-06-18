@@ -104,6 +104,31 @@ class XHRToRails5Test < MiniTest::Test
     assert_includes(source, 'post image_path, params: { id: 1 }, xhr: true')
   end
 
+  def test_post_with_local_variable
+    source = convert <<~RB
+      def post
+        params = { id: 1 }
+        xhr :post, image_path, params
+      end
+    RB
+    assert_includes(
+      source,
+      'post image_path, params: params, xhr: true'
+    )
+  end
+
+  def test_post_with_method_call
+    source = convert <<~RB
+      def post
+        xhr :post, image_path, params
+      end
+    RB
+    assert_includes(
+      source,
+      'post image_path, params: params, xhr: true'
+    )
+  end
+
   def test_post_with_multiple_keyword_arguments
     source = convert <<~RB
       def post

@@ -56,6 +56,7 @@ module Rails5XHRUpdate
 
     def handle_keyword_args(arguments)
       return false if arguments.size != 1
+      return false if arguments[0].type != :hash
       return false if arguments[0].children.empty?
       first_key = arguments[0].children[0].children[0].children[0]
       return false unless %i[params session flash format].include?(first_key)
