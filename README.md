@@ -33,7 +33,7 @@ get images_path, flash: { success: "logged in" }, params: { id: 1 }, session: { 
 
 To install rails5_xhr_update run:
 
-    gem install rails5_xhr_udpate
+    gem install rails5_xhr_update
 
 
 ## Running
